@@ -1,0 +1,17 @@
+Properties of A* - Introduction to AI
+
+1)Introduction
+
+2)A* basic concept
+
+3)Admissibility
+
+4)Consistency
+
+5)Link between the two
+
+6)Examples
+
+7)Complexity
+
+8)Conclusion
