@@ -112,13 +112,121 @@ Q.E.D.
 
 #### Implementation
 
-```python
+This is a direct implementation of A* on a graph structure. The heuristic function is defined as 1 for all nodes for the sake of simplicity. The graph is represented with an adjacency list, where the keys represent graph nodes, and the values contain a list of edges with the the corresponding destination nodes.
 
+```python
+from collections import deque
+class Graph:
+
+    # example of adjacency list (or rather map) 
+    # adjacency_list = {
+    # 'A': [('B', 1), ('C', 3), ('D', 7)],
+    # 'B': [('D', 5)],
+    # 'C': [('D', 12)]
+    # }
+
+    def __init__(self, adjacency_list):
+        self.adjacency_list = adjacency_list
+        
+    def get_neighbors(self, v):
+        return self.adjacency_list[v]
+
+    # heuristic function with equal values for all nodes
+    def h(self, n):
+        H = {
+                'A' : 1,
+                'B' : 1,
+                'C' : 1,
+                'D': 1
+                }
+
+        return H[n]
+
+    def aStarAlgorithm(self, startNode, stopNode):
+
+        # openList is a list of nodes which have been visited, but who's neighbors
+        # haven't all been inspected, starts off with the start node
+        # closedList is a list of nodes which have been visidet
+        # and who's neighbors have been inspected
+        openList = set([startNode])
+        closedList = set([])
+
+        # g contains current distances from startNode to all other nodes
+        # the default value (if it's not found in the map) is +infinity
+        g = {}
+        
+        g[startNode] = 0
+
+        # parents contains an adjacency map of all nodes
+        parents = {}
+        parents[startNode] = startNode
+
+        while len(openList) > 0:
+
+            n = None
+
+            # find a node with the lowest value of f() - evaluation function
+            for v in openList:
+                if n == None or g[v] + self.h(v) < g[n] +  self.h(n):
+                    n = v;
+
+            if n == None:
+                print('Path does not exist!')
+                return None
+
+            # if the current node is the stopNode
+            # then we begin reconstructin the path from it to the startNode
+            if n == stopNode:
+                reconstPath = []
+
+                while parents[n] != n:
+                    reconstPath.append(n)
+                    n = parents[n]
+
+                reconstPath.append(startNode)
+
+                reconstPath.reverse()
+                
+                print('Path found:{}'.format(reconstPath))
+                return reconstPath
+
+            # for all neighbors of the current node do
+            for (m, weight) in self.get_neighbors(n):
+
+                # if the current node isn't in both openList and closedList
+                # add it to openList and note n as it's parent
+                if m not in openList and m not in closedList:
+                    openList.add(m)
+                    parents[m] = n
+                    g[m] = g[n] + weight
+
+
+                # otherwise, check if it's quicker to first visit n, then m
+                # and if it is, update parent data and g data
+                # and if the node was in the closedList, move it to openList
+                else:
+                    if g[m] > g[n] + weight:
+                        g[m] = g[n] + weight
+                        parents[m] = n
+
+                        if m in closedList:
+                            closedList.remove(m)
+                            openList.add(m)
+
+            # remove n from the openList, and add it to closedList
+            # because all of his neighbors were inspected
+            openList.remove(n)
+            closedList.add(n)
+ 
+        print('Path does not exist!')
+        return None
 ```
 
 
 
 
 
+#### Conclusion
 
+A* is very powerful algorithm with almost unlimited potential. However, it is only as good as its heuristic function, which can be highly variable considering the nature of a problem.
 
