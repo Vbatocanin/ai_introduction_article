@@ -1,6 +1,16 @@
+* [Introduction](#introduction)
+* [A* basic concept](#a*-basic-concept)
+* [Admissibility](#admissibility)
+* [Consistency](#consistency)
+* [Link between the two](#link-between-the-two)
+* [Implementation](#implementation)
+* [Conclusion](#conclusion)
+
+
+
 ### Introduction
 
-**Artificial intelligence** in it's core strives to solve problems of enormous combinatorial complexity. Over the years, these problems were boiled down to search problems. A search problem is a computational problem where you have to find a path from point A to point B. In our case, we'll be mapping search problems to appropriate graphs, where the nodes represent all the possible **states** we can end up in and the **edges** representing all the possible paths that we have at our disposal.
+**Artificial intelligence** in its core strives to solve problems of enormous combinatorial complexity. Over the years, these problems were boiled down to search problems. A search problem is a computational problem where you have to find a path from point A to point B. In our case, we'll be mapping search problems to appropriate graphs, where the nodes represent all the possible **states** we can end up in and the **edges** representing all the possible paths that we have at our disposal.
 
 So the next logical question would be:
 
@@ -31,14 +41,84 @@ Now because we have a finished graph, we can discuss algorithms for finding a pa
 
 #### A* basic concept
 
-A* is based on using heuristic methods to achieve **optimality** and **completeness**.
+A* is based on using heuristic methods to achieve **optimality** and **completeness**, and is a variant of the best-first algorithm.
 
 When a search algorithm has the property of **optimality**, it means it is guaranteed to find the best possible solution, in our case the shortest path to the finish state. When a search algorithm has the property of **completeness**, it means if a solution to given problem exists, the algorithm is guaranteed to find it.
 
-Each time A* enters a state, it judges the values of all it's neighboring states (direct relatives of a given note in a graph), with the following formula:
+Each time A* enters a state, it calculates *f(n)* (n being the neighboring node) for all the neighboring nodes, and then enters the node with the lowest value of *f(n)*. These values are calculated with the following formula: 
 
 $$
 \mathcal f(n) = \mathcal g(n) + \mathcal h(n)
 $$
+
+*g(n)* being the value of the shortest path from the start node to node *n*, and *h(n)* being a heuristic approximation of the node's value.
+
+For us to be able to reconstruct any path, we need to mark every node with it direct relative with an optimal *f(n)* value. This also means that if we revisit certain nodes, we'll have to update their most optimal relatives as well, more on that later.
+
+The efficiency of A* is highly dependent on the heuristic value *h(n)*, and depending on the type of problem, we need to use a different heuristic function. Construction of such functions is no easy task and is one the fundamental problems of AI. The two fundamental properties a heuristic function **can** have are ***admissibility*** and ***consistency***.
+
+#### Admissibility and Consistency
+
+A given heuristic function *h(n)* is admissible if it never overestimates the real distance between *n* and the finish node, so for every node *n* the following formula applies:
+$$
+h(n)\leq h^*(n)
+$$
+*h\*(n)* being the real distance between n and the finish node. However, if the function does overestimate the  real distance, but never by more than *d*, we can safely say that the solution that that function produces is of  accuracy *d* (doesn't overestimate the shortest path from start to finish by more than *d*). 
+
+
+
+A given heuristic function *h(n)* is consistent if it's value for the finish node is 0 and for every 2 neighboring nodes *m* and *n*, the following formula applies:
+$$
+c(n,m)+h(m)\geq h(n)
+$$
+*c(n,m)* being the distance between nodes n and m. Additionally, if *h(n)* is consistent, then we know the optimal path to any node that has been already inspected. This means that this function is **optimal**.
+
+
+
+**Theorem**: If a heuristic function is consistent, then it is also admissible.
+
+**Proof by complete induction**
+
+The induction parameter *N* will be the number of nodes between node *n* and the finish node *s* on the shortest path between the two.
+
+**Base**: *kN=0
+
+If there are no nodes between *n* and *s*, and because we know that *h(n)* is consistent, the following equation is valid:
+
+$$
+c(n,s)+h(s)\geq h(n)
+$$
+
+Knowing *h\*(n)=c(n,s)* and *h(s)=0* we can safely deduce that 
+
+$$
+h^*(n)\geq h(n)
+$$
+**Induction hypothesis**: N<k
+
+We hypothesize that the given rule is true for every *N*<*k*
+
+
+
+**Induction step: **
+
+In the case of N = k nodes on the shortest path from *n* to *s* , we inspect the first successor (node *m*) of the finish node n. Because we know that there is a path from *m* to *n*, and we know this path contains k-1 nodes, the following equation is valid:
+$$
+ℎ^*(𝑛) = 𝑐(𝑛, 𝑚) + ℎ^*(𝑚) ≥ 𝑐(𝑛, 𝑚) + ℎ(𝑚) ≥ ℎ(𝑛)
+$$
+Q.E.D.
+
+
+
+#### Implementation
+
+```python
+
+```
+
+
+
+
+
 
 

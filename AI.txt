@@ -4,14 +4,9 @@ Properties of A* - Introduction to AI
 
 2)A* basic concept
 
-3)Admissibility
+3)Admissibility and Consistency
 
-4)Consistency
+5)Implementation
 
-5)Link between the two
+6)Conclusion
 
-6)Examples
-
-7)Complexity
-
-8)Conclusion
