@@ -1,8 +1,6 @@
 * [Introduction](#introduction)
 * [A* basic concept](#a*-basic-concept)
-* [Admissibility](#admissibility)
-* [Consistency](#consistency)
-* [Link between the two](#link-between-the-two)
+* [Admissibility and Consistency](#admissibility-and-consistency)
 * [Implementation](#implementation)
 * [Conclusion](#conclusion)
 
@@ -81,7 +79,7 @@ $$
 
 The induction parameter *N* will be the number of nodes between node *n* and the finish node *s* on the shortest path between the two.
 
-**Base**: *kN=0
+**Base**: N=0
 
 If there are no nodes between *n* and *s*, and because we know that *h(n)* is consistent, the following equation is valid:
 
