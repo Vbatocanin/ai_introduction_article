@@ -23,7 +23,7 @@ Let's say that you have to get through a maze. Any time we want to convert any k
 3. Finish check (a way to check if we're at the finish state)
 4. Set of possible actions (in this case, direction of movement)
 5. A traversal function (a function that will tell us where we'll end up if we go a certain direction)
-6. A pricelist of all the possible actions
+6. Set of movement costs from state to state (which correspond to edges in the graph)
 
 The maze problem can be solved by mapping the intersections to appropriate nodes (red dots), and the possible directions we can go to appropriate graph edges (blue lines). Naturally, we define the start and finish states as the intersections where we enter the maze (node A), and where we want to exit the maze (node B). 
 
